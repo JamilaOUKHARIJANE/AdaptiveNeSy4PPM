@@ -1,4 +1,4 @@
-AdaptiveNeSy4PPM
+Adaptive Weighting to Automatically Balance Neural and Symbolic Contributions in Neuro-Symbolic Predictive Process Monitoring
 ================
 
 AdaptiveNeSy4PPM combines a neural next-activity predictor with process

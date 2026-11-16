@@ -159,7 +159,7 @@ def extract_encode_prefixes(log_data: LogData,prefixes, encoder: Encodings = Enc
     return x, y_a, y_g
 
 def end_to_end_process(log_path:Path,log_name=None,train_ratio=0.8, feedback_ratio=0, train_log=None, feedback_log=None, test_log=None, case_name_key = 'case:concept:name',act_name_key = 'concept:name'
-                 ,res_name_key = 'org:resource',timestamp_key = 'time:timestamp',encoder: Encodings = Encodings.Index_based, resource: bool = False):
+                 ,res_name_key = 'org:resource',timestamp_key = 'time:timestamp',encoder: Encodings = Encodings.One_hot, resource: bool = False):
     log_data = LogData(log_path=log_path,log_name=log_name,train_ratio=train_ratio, feedback_ratio=feedback_ratio, train_log=train_log,feedback_log=feedback_log, test_log=test_log,
                                  case_name_key = case_name_key,act_name_key = act_name_key,res_name_key = res_name_key,timestamp_key = timestamp_key)
     x, y_a, y_g = extract_encode_prefixes(log_data, log_data.training_sequences, encoder=encoder, resource=resource)

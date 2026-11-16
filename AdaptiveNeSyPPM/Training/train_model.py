@@ -12,11 +12,11 @@ from keras.optimizers import Nadam, Adam
 from keras.src.layers import Dropout
 from keras_hub.src.layers.modeling.transformer_encoder import TransformerEncoder
 from tensorflow.python.keras.utils.vis_utils import plot_model
-from NeSy4PPM.Data_preprocessing import shared_variables as shared
-from NeSy4PPM.Data_preprocessing.log_utils import LogData
-from NeSy4PPM.Data_preprocessing.utils import Encodings, NN_model
-from NeSy4PPM.Training.Modulator import Modulator
-from NeSy4PPM.Training.train_common import create_checkpoints_path, plot_loss
+from AdaptiveNeSyPPM.Data_preprocessing import shared_variables as shared
+from AdaptiveNeSyPPM.Data_preprocessing.log_utils import LogData
+from AdaptiveNeSyPPM.Data_preprocessing.utils import Encodings, NN_model
+from AdaptiveNeSyPPM.Training.Modulator import Modulator
+from AdaptiveNeSyPPM.Training.train_common import create_checkpoints_path, plot_loss
 import absl.logging
 absl.logging.set_verbosity(absl.logging.ERROR)
 
@@ -139,7 +139,7 @@ def _train_model(model, checkpoint_name, x, y_a, y_g,encoder):
     plot_loss(history, os.path.dirname(checkpoint_name))
 
 
-def train(log_data: LogData, model_arch, encoder:Encodings,output_folder:Path, X, y_a, y_g=None):
+def train(log_data: LogData, model_arch,output_folder:Path, X, y_a, y_g=None, encoder=Encodings.One_hot,):
     maxlen = log_data.max_len
     if y_g is None:
         model_type='CF'

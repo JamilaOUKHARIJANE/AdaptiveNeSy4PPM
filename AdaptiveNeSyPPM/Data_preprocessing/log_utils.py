@@ -44,7 +44,7 @@ class LogData:
         self.timestamp_key = timestamp_key
         self.log_name = Path(log_name).stem if log_name else None
 
-        # Simple Train/feedback/Test Split  (if you want feedback set use a feedback ratio different to 0)
+        # Simple Train/learning_w/Test Split  (if you want learning_w set use a learning_w ratio different to 0)
         if self.log_name is not None and train_log is None and test_log is None:
             self.log= self.read_log(log_path, log_name)
             self.log = self.log.sort_values(by=[self.case_name_key, self.timestamp_key, self.act_name_key])
@@ -56,7 +56,7 @@ class LogData:
             self.training_trace_ids = case_ids[:int(train_ratio * len(case_ids))]
             self.feedback_trace_ids = case_ids[int(train_ratio * len(case_ids)):int((train_ratio+feedback_ratio) * len(case_ids))]
             self.evaluation_trace_ids = case_ids[int((train_ratio+feedback_ratio) * len(case_ids)):]
-        # Read Train, feedback and Test sets (feedback is optional) from .csv or .xes or .xes.gz file or a Dataframe
+        # Read Train, learning_w and Test sets (learning_w is optional) from .csv or .xes or .xes.gz file or a Dataframe
         elif train_log is not None and test_log is not None:
             if not isinstance(train_log, pd.DataFrame): train_log = self.read_log(log_path, train_log)
             if feedback_log is not None and not isinstance(feedback_log, pd.DataFrame):
@@ -99,7 +99,7 @@ class LogData:
         new_train_chars = [na for na in check_new_act if na not in act_chars]
         new_feedback_chars = [na for na in check_new_act if na not in feedback_chars]
         if new_train_chars: print("new activities un-found in the training set", [self.act_enc_mapping[char] for char in new_train_chars])
-        if new_feedback_chars: print("new activities un-found in the feedback set", [self.act_enc_mapping[char] for char in new_feedback_chars])
+        if new_feedback_chars: print("new activities un-found in the learning_w set", [self.act_enc_mapping[char] for char in new_feedback_chars])
         if self.res_name_key in self.log.columns:
             chars_group = list(training_traces[self.res_name_key].unique())
             check_new_group = list(testing_traces[self.res_name_key].unique())

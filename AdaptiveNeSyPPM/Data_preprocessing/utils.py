@@ -8,7 +8,6 @@ from AdaptiveNeSyPPM.ProbDeclmonitor.probDeclPredictor import ProbDeclarePredict
 from AdaptiveNeSyPPM.Data_preprocessing import shared_variables as shared
 from AdaptiveNeSyPPM.Data_preprocessing.log_utils import LogData
 from pm4py.visualization.petri_net import visualizer as vis_factory
-from AdaptiveNeSyPPM.StochasticDFA.SDFA import StochasticDFA
 
 class BK_type(Enum):
     Procedural = 'Procedural'
@@ -76,9 +75,6 @@ def load_bk(BK_file:Path):
         probDeclarePredictor = ProbDeclarePredictor()
         probDeclarePredictor.loadProbDeclModel(BK_file)
         return {"model": probDeclarePredictor,"type":BK_type.ProbDeclare}
-    elif BK_file.endswith('.sdfa'):
-        automaton = StochasticDFA.from_sdfa_file(BK_file)
-        return {"model": automaton, "type": BK_type.SDFA}
 
     else:
         raise ValueError(

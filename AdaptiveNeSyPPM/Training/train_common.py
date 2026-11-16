@@ -2,7 +2,7 @@ from pathlib import Path
 from matplotlib import pyplot as plt
 from keras import layers, Sequential
 
-from NeSy4PPM.Data_preprocessing.utils import Encodings, NN_model
+from AdaptiveNeSyPPM.Data_preprocessing.utils import Encodings, NN_model
 
 
 def create_checkpoints_path(log_name, model_type,output_folder):

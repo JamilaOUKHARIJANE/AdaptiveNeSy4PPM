@@ -6,7 +6,7 @@ from AdaptiveNeSyPPM.Prediction import inference_algorithm
 from AdaptiveNeSyPPM.ProbDeclmonitor.probDeclPredictor import AggregationMethod
 
 
-def predict_evaluate(log_data: LogData,max_trace_len, models_folder:Path, encoder: Encodings, output_filename:str,
+def predict_evaluate(log_data: LogData,max_trace_len, models_folder:Path,  output_filename:str,encoder=Encodings.One_hot,
                      evaluation_trace_ids=None, bk_model=None,
                      beam_size:int=3, ProbAgg_method: AggregationMethod=None,binary_compliance=False,
                      adaptive_weight=False, weight: float=0.0, resource: bool=False, bk_end:bool=False, prefix_size:int=0,

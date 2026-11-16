@@ -126,12 +126,12 @@ for log_name in loglist:
         train_path = Path(log_path) / f"{log_name}_train.xes"
         novel_path = (Path(log_path) / f"{log_name}_feedback_filtered.xes")
         novel_path = _create_novel_feedback_log(train_path, feedback_path, novel_path)
-        bk_model = discover_petri_net(novel_path)
+        pm_model = discover_petri_net(novel_path)
         pnml_path = SDFA_path / f"{log_name}.pnml"
         pm4py.write_pnml(
-            bk_model["net"],
-            bk_model["initial_marking"],
-            bk_model["final_marking"],
+            pm_model["net"],
+            pm_model["initial_marking"],
+            pm_model["final_marking"],
             str(pnml_path),
         )
 
@@ -145,7 +145,7 @@ for log_name in loglist:
             for w in np.arange(0, 1.1, 0.1):
                 for prefix in range(1, max_prefix_len):
                     predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                                    output_filename=prediction_filename, bk_model=bk_model,
+                                                    output_filename=prediction_filename, pm_model=pm_model,
                                                     evaluation_trace_ids=case_ids,
                                                     prefix_size=prefix,
                                                     beam_size=bsize, weight=w
@@ -157,7 +157,7 @@ for log_name in loglist:
             prediction_filename = f"{log_name}_learned_w_results.csv"
             for prefix in range(1, max_prefix_len):
                 predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                                output_filename=prediction_filename, bk_model=bk_model,
+                                                output_filename=prediction_filename, pm_model=pm_model,
                                                 prefix_size=prefix,
                                                 beam_size=bsize, weight=w
                                                 )
@@ -165,47 +165,47 @@ for log_name in loglist:
             prediction_filename = f"{log_name}_fixed_w_results.csv"
             for prefix in range(1, max_prefix_len):
                 predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                                output_filename=prediction_filename, bk_model=bk_model,
+                                                output_filename=prediction_filename, pm_model=pm_model,
                                                 prefix_size=prefix,
                                                 beam_size=bsize, weight=0.5
                                                 )
         if symbolic:
             prediction_filename = f"{log_name}_symbolic_results.csv"
             predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                            output_filename=prediction_filename, bk_model=bk_model,
+                                            output_filename=prediction_filename, pm_model=pm_model,
                                             beam_size=bsize, weight=1
                                             )
         if adaptive:
             prediction_filename = f"{log_name}_{method}_results.csv"
             nn_entropy = True
-            bk_entropy = True
+            pm_entropy = True
             prefix_support = True
             prefix_sim = True
-            bk_conformance = True
+            pm_conformance = True
             if method == "adaptive_w_dls-nnEntropy":
                 nn_entropy = False
             if method == "adaptive_w_dls-prefix_supp":
                 prefix_support = False
             if method == "adaptive_w_dls-prefix_sim":
                 prefix_sim = False
-            if method == "adaptive_w_dls-bk_conformance":
-                bk_conformance = False
+            if method == "adaptive_w_dls-pm_conformance":
+                pm_conformance = False
             if method == "adaptive_w_dls-bkEntropy":
-                bk_entropy = False
+                pm_entropy = False
             for prefix in range(1, max_prefix_len):
                 predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                                output_filename=prediction_filename, bk_model=bk_model,
+                                                output_filename=prediction_filename, pm_model=pm_model,
                                                 prefix_size=prefix,
                                                 beam_size=bsize, adaptive_weight=True, nn_entropy=nn_entropy,
-                                                bk_entropy=bk_entropy,
+                                                pm_entropy=pm_entropy,
                                                 prefix_support=prefix_support, prefix_sim=prefix_sim,
-                                                bk_conformance=bk_conformance
+                                                pm_conformance=pm_conformance
                                                 )
         if neural:
             prediction_filename = f"{log_name}_neural_results.csv"
             for prefix in range(1, max_prefix_len):
                 predict_suffix.predict_evaluate(log_data,  max_trace_len, models_folder=output_folder, 
-                                                output_filename=prediction_filename, bk_model=None, prefix_size=prefix,
+                                                output_filename=prediction_filename, pm_model=None, prefix_size=prefix,
                                                 beam_size=bsize, weight=0
                                                 )
 
